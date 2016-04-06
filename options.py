@@ -1,0 +1,90 @@
+# coding: utf-8
+
+from __future__ import unicode_literals
+
+import datetime
+
+
+report_begin_map = {
+    0: -3,
+    1: -4,
+    2: -5,
+    3: -6,
+    4: -7,
+    5: -1,
+    6: -2,
+}
+
+
+report_end_map = {
+    0: 3,
+    1: 2,
+    2: 1,
+    3: 0,
+    4: -1,
+    5: 5,
+    6: 4,
+}
+
+
+def get_period(today=None):
+    """ Get report period from last thursday to next friday
+    :param today: custom current date
+    :return: tuple of dates
+    """
+    if not today:
+        today = datetime.date.today()
+
+    start_date, end_date = today, today
+
+    today_weekday = today.weekday()
+    start_date += datetime.timedelta(report_begin_map[today_weekday])
+    end_date += datetime.timedelta(report_end_map[today_weekday])
+
+    return start_date, end_date
+
+
+jira_url = ''
+start_date, end_date = get_period()
+project_id = 12533
+login, passwd = '', ''
+
+
+def run_test():
+    start_date = datetime.date(day=1, month=1, year=2016)
+    end_date = datetime.date(day=7, month=1, year=2016)
+
+    # test min
+    day = datetime.date(day=1, month=1, year=2016)
+    s, e = get_period(day)
+    assert s == datetime.date(day=25, month=12, year=2015)
+    assert e == datetime.date(day=31, month=12, year=2015)
+
+    # test max
+    day = datetime.date(day=7, month=1, year=2016)
+    s, e = get_period(day)
+
+    assert s == start_date and e == day
+
+    # test in period
+    day = datetime.date(day=3, month=1, year=2016)
+    s, e = get_period(day)
+
+    assert s == start_date and e == end_date
+
+    # test in period different date
+    day = datetime.date(day=5, month=1, year=2016)
+    s, e = get_period(day)
+
+    assert s == start_date and e == end_date
+
+    # test in outer period
+    day = datetime.date(day=9, month=1, year=2016)
+    s, e = get_period(day)
+
+    assert s == datetime.date(day=8, month=1, year=2016)
+    assert e == datetime.date(day=14, month=1, year=2016)
+
+
+if __name__ == '__main__':
+    run_test()
