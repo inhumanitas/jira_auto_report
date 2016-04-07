@@ -5,6 +5,17 @@ from __future__ import unicode_literals
 import datetime
 
 
+# Jira url
+jira_url = 'http://jira.cg.ru'
+# Jira project id
+project_id = 12533
+# Jira login/password
+login, passwd = 'login', 'pass'
+# output directory date format
+dir_fmt = '%m.%d'
+# report base directory
+base_dir = 'reports'
+
 report_begin_map = {
     0: -3,
     1: -4,
@@ -42,12 +53,6 @@ def get_period(today=None):
     end_date += datetime.timedelta(report_end_map[today_weekday])
 
     return start_date, end_date
-
-
-jira_url = ''
-start_date, end_date = get_period()
-project_id = 12533
-login, passwd = '', ''
 
 
 def run_test():
