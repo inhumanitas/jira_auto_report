@@ -12,7 +12,7 @@ INSTALLATION
 SET VARIABLES
 =============
 
-Edit before installation settings file 
+Make settings file 
 
     $ cp /etc/jira_auto_report/config.yaml.example /etc/jira_auto_report/config.yaml
     $ vi /etc/jira_auto_report/config.yaml
