@@ -132,7 +132,7 @@ class TimeSheetReport(Report):
 
 active_reports = [
     WorkProjectByStaffReport,
-    # WorkProjectByStaffAllReport,
+    WorkProjectByStaffAllReport,
     WorkProjectByTaskReport,
     WorkProjectByTaskALLReport,
     LoadControlReport,

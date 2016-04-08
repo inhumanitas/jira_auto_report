@@ -14,7 +14,7 @@ login, passwd = 'login', 'pass'
 # output directory date format
 dir_fmt = '%m.%d'
 # report base directory
-base_dir = 'reports'
+base_dir = '/tmp/reports'
 
 report_begin_map = {
     0: -3,
@@ -39,9 +39,9 @@ report_end_map = {
 
 
 def get_period(today=None):
-    """ Get report period from last thursday to next friday
+    """ Get report period from last friday to next thursday
     :param today: custom current date
-    :return: tuple of dates
+    :return: tuple such as (last_friday_date, next_thursday_date)
     """
     if not today:
         today = datetime.date.today()
