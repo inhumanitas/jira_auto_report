@@ -1,0 +1,11 @@
+# Jira url
+jira_url: 'http://jira.cg.ru'
+# Jira project id
+project_id: 12533
+# Jira login/password
+login: 'login'
+passwd: 'pass'
+# output directory date format
+dir_fmt: '%m.%d'
+# report base directory
+base_dir: '/tmp/reports'

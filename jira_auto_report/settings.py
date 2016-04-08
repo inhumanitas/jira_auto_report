@@ -3,7 +3,9 @@
 from __future__ import unicode_literals
 
 import datetime
+import os
 
+import yaml
 
 # Jira url
 jira_url = 'http://jira.cg.ru'
@@ -15,6 +17,24 @@ login, passwd = 'login', 'pass'
 dir_fmt = '%m.%d'
 # report base directory
 base_dir = '/tmp/reports'
+
+local_settings_file = '/etc/jira_auto_report/config.yaml'
+
+
+def update(path):
+    config = yaml.load(open(path))
+    gl = globals()
+    for key, value in config.iteritems():
+        if key in gl:
+            if isinstance(value, dict):
+                for k, v in value.iteritems():
+                    gl[key][k] = v
+            else:
+                gl[key] = value
+
+if os.path.exists(local_settings_file):
+    update(local_settings_file)
+
 
 report_begin_map = {
     0: -3,
