@@ -6,7 +6,10 @@ import logging
 
 import os
 from jira import JIRA
-from jira.exceptions import JIRAError
+try:
+    from jira.exceptions import JIRAError
+except ImportError:
+    from jira import JIRAError
 
 from jira_auto_report.settings import (
     jira_url, login, passwd, project_id, get_period, dir_fmt, base_dir)
