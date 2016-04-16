@@ -20,6 +20,8 @@ class Report(object):
     jira_report_plugin = None
     # checkbox argument
     checked = False
+    # additional params to url
+    options = None
     # date format in url request
     date_agrs_fmt = '%d/%b/%y'
     # report getter url
@@ -31,7 +33,8 @@ class Report(object):
         'reportKey=ru.cg.jirareport.plugin:{plugin}&'
         'Next=Next')
 
-    def __init__(self, jira, project_id, start_date, end_date, base_dir=''):
+    def __init__(self, jira, project_id, start_date, end_date, base_dir='',
+                 options=None):
         """ Base for all reports.
         :param jira: Jira instance
         :type jira: jira.JIRA
@@ -42,6 +45,7 @@ class Report(object):
         """
 
         super(Report, self).__init__()
+
         self.jira_cli = jira
         self.jira_url = self.jira_cli._options['server']
 
@@ -51,6 +55,10 @@ class Report(object):
         self.end_date_arg = end_date.strftime(self.date_agrs_fmt)
         self.project_id = project_id
         self.base_dir = base_dir
+        self.options = options or {}
+
+        if self.checked:
+            self.options['checkbox'] = 'true'
 
     def __repr__(self):
         return self.__class__.__name__
@@ -62,7 +70,10 @@ class Report(object):
             'endDate': self.end_date_arg,
             'project_id': self.project_id,
             'plugin': self.jira_report_plugin,
-            'options': 'checkbox=true&' if self.checked else '',
+            'options': (''.join(
+                [str(k)+'='+str(v)+'&' for k, v in self.options.items()])
+                if self.options else ''
+            ),
         })
         return report_url
 
@@ -106,6 +117,17 @@ class WorkProjectByStaffReport(Report):
 class WorkProjectByStaffAllReport(WorkProjectByStaffReport):
     report_filename = 'Трудозатраты проекта (по сотрудникам) ALL.zip'
     checked = True
+
+
+class WorkProjectByStaffByUserReport(Report):
+    report_filename = 'Трудозатраты проекта (по сотрудникам).zip'
+    jira_report_plugin = 'WorkProjectByStaff'
+
+    def __init__(self, jira, project_id, start_date, end_date,
+                 base_dir='', username=''):
+        super(WorkProjectByStaffByUserReport, self).__init__(
+            jira, project_id, start_date, end_date, base_dir,
+            options={'user': username})
 
 
 class WorkProjectByTaskReport(Report):

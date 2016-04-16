@@ -27,6 +27,10 @@ LOGGING = {
             'level': 'DEBUG',
             'handlers': ['console'],
         },
+        '__main__': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        },
     }
 }
 

@@ -20,7 +20,8 @@ def main():
         jira_cg = JIRA(server=jira_url, basic_auth=(login, passwd))
     except JIRAError as e:
         logger.critical(e)
-        raise
+        logger.critical('Check authentication params')
+        return
 
     start_date, end_date = get_period()
 
