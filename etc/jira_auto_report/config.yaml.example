@@ -5,7 +5,16 @@ project_id: 12533
 # Jira login/password
 login: 'login'
 passwd: 'pass'
-# output directory date format
+
+# Output directory date format
 dir_fmt: '%m.%d'
 # report base directory
 base_dir: '/tmp/reports'
+
+# Mail notification settings
+mail_server_url: "zarafa.cg.ru"
+user_mail: 'robot@cg.ru'
+user_password: 'robot_password'
+
+recipient:
+    -

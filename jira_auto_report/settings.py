@@ -18,6 +18,13 @@ dir_fmt = '%m.%d'
 # report base directory
 base_dir = '/tmp/reports'
 
+# send mail to recipient
+recipient = None
+mail_server_url = None
+user_mail = None
+user_password = None
+
+
 local_settings_file = '/etc/jira_auto_report/config.yaml'
 
 
@@ -34,7 +41,21 @@ def update(path):
 
 if os.path.exists(local_settings_file):
     update(local_settings_file)
+elif os.path.exists('config.yaml'):
+    update('config.yaml')
 
+
+from_mail = globals().get('from_mail', user_mail)
+
+mail_message_temlate = '''Reports generate finished!
+
+Working period: {begin} - {end}
+
+Generated files:
+{file_list}
+'''
+
+mail_subject_template = 'Jira auto report: {begin} - {end}'
 
 report_begin_map = {
     0: -3,
