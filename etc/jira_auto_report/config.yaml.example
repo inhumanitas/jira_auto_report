@@ -16,5 +16,7 @@ mail_server_url: "zarafa.cg.ru"
 user_mail: 'robot@cg.ru'
 user_password: 'robot_password'
 
+LOG_LEVEL: 'DEBUG'
+
 recipient:
     -

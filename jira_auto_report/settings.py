@@ -26,6 +26,8 @@ user_password = None
 
 
 local_settings_file = '/etc/jira_auto_report/config.yaml'
+LOG_FILENAME = '/var/log/jira_auto_report/log.out'
+LOG_LEVEL = 'DEBUG'
 
 
 def update(path):

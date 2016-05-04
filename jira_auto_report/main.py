@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 def main():
+    logger.info('Started jira auto report')
+
     try:
         jira_cg = JIRA(server=settings.jira_url,
                        basic_auth=(settings.login, settings.passwd))
@@ -25,6 +27,8 @@ def main():
         logger.critical(e)
         logger.critical('Check authentication params')
         return
+    # import datetime
+    # start_date, end_date = settings.get_period(datetime.date(day=22, month=4, year=2016))
 
     start_date, end_date = settings.get_period()
 
@@ -33,6 +37,9 @@ def main():
         end_date.strftime(settings.dir_fmt))
     report_file_dir = os.path.join(settings.base_dir, dir_name)
 
+    logger.info('Report file dir')
+    logger.info(report_file_dir)
+
     if os.path.exists(report_file_dir):
         logger.critical('Skipping report requests, path exists: {0}'.format(
             report_file_dir))
@@ -40,22 +47,29 @@ def main():
         os.makedirs(report_file_dir)
 
         for report in active_reports:
+            logger.debug('Process report')
+            logger.debug(report)
+
             r = report(jira_cg, settings.project_id, start_date, end_date,
                        base_dir=report_file_dir)
             r.save_report()
 
     if settings.recipient:
-        file_list = ''
+        logger.info('Sending mails')
+        file_list = report_file_dir + '\n'
         deep = 0
-        for root, dirs, files in os.walk(settings.base_dir):
+        for root, dirs, files in os.walk(report_file_dir):
+            deep += 1
             offset = deep * '\t'
             for file_name in dirs+files:
-                if os.name == 'nt':
-                    file_name = file_name.decode('Windows-1251')
+                try:
+                    file_name = file_name.decode('utf-8')
+                except UnicodeEncodeError:
+                    pass
 
                 file_list += offset + file_name + '\n'
-            deep += 1
 
+        # TODO refactor notifiers
         msg = settings.mail_message_temlate.format(
             begin=start_date,
             end=end_date,
@@ -73,4 +87,5 @@ def main():
                 settings.from_mail, settings.recipient, mail_subject, msg)
 
 if __name__ == '__main__':
+    # TODO parse date in arguments
     main()

@@ -141,7 +141,7 @@ class WorkProjectByTaskALLReport(WorkProjectByTaskReport):
 
 
 class LoadControlReport(Report):
-    report_filename = 'Контроль загрузки сотрудников с 9:00 до 18:00.xls'
+    report_filename = 'Контроль загрузки сотрудников с 9.00 до 18.00.xls'
     url_re = re.compile(r'URL=(/reports/[\w.]+/\w+ - LOAD_CONTROL.xls)">')
     jira_report_plugin = 'LoadControl'
 
