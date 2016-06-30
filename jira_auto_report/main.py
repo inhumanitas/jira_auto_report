@@ -28,8 +28,10 @@ def main():
         logger.critical('Check authentication params')
         return
     # import datetime
-    # start_date, end_date = settings.get_period(datetime.date(day=22, month=4, year=2016))
-
+    # start_date, end_date = settings.get_period(
+    # datetime.date(day=4, month=5, year=2016))
+    # start_date = datetime.date(day=29, month=4, year=2016)
+    # end_date = datetime.date(day=5, month=5, year=2016)
     start_date, end_date = settings.get_period()
 
     dir_name = (

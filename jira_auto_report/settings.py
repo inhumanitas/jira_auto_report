@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 import datetime
+import time
 import os
 
 import yaml
@@ -26,7 +27,10 @@ user_password = None
 
 
 local_settings_file = '/etc/jira_auto_report/config.yaml'
-LOG_FILENAME = '/var/log/jira_auto_report/log.out'
+
+timestr = time.strftime("%Y.%m.%d-%H:%M:%S")
+LOG_FILENAME = '/tmp/jira_auto_report_{0}.log'.format(timestr)
+
 LOG_LEVEL = 'DEBUG'
 
 
